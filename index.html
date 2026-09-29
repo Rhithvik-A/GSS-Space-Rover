@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="GSS Space Rover — Enceladus Explorer. Interactive dashboard with real-time rover simulation, moon data, and live EV3 camera streaming.">
+  <title>GSS Enceladus Rover Explorer</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+  <!-- Starfield background -->
+  <div class="starfield"></div>
+  <div class="nebula-glow nebula-glow--top"></div>
+  <div class="nebula-glow nebula-glow--bottom"></div>
+
+  <div class="app-wrapper">
+
+    <!-- ========== NAVBAR ========== -->
+    <nav class="navbar" id="navbar">
+      <div class="navbar__inner">
+        <a class="navbar__brand" href="#">
+          <div class="navbar__logo">CHS</div>
+          <div>
+            <div class="navbar__title">ENCELADUS ROVER</div>
+            <div class="navbar__subtitle">Credence High School • GSS Space Mission</div>
+          </div>
+        </a>
+
+        <div class="navbar__nav">
+          <button class="nav-btn active" data-page="page-dashboard" id="nav-dashboard">🪐 Dashboard</button>
+          <button class="nav-btn" data-page="page-simulation" id="nav-simulation">🤖 Simulation</button>
+          <button class="nav-btn" data-page="page-stream" id="nav-stream">📡 Live Stream</button>
+          <div class="status-badge">
+            <div class="status-badge__dot"></div>
+            ACTIVE
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- ========== MAIN CONTENT ========== -->
+    <main class="main-content">
+
+      <!-- ====== PAGE: DASHBOARD ====== -->
+      <section class="page active" id="page-dashboard">
+
+        <!-- Hero Banner -->
+        <div class="hero-banner">
+          <div class="hero-banner__bg"></div>
+          <div class="hero-planet"></div>
+          <div class="hero-banner__content">
+            <div class="hero-banner__eyebrow">
+              <span>◆</span> MISSION TARGET
+            </div>
+            <h1 class="hero-banner__title">ENCELADUS</h1>
+            <p class="hero-banner__subtitle">
+              Saturn's icy moon — a small world hiding a global ocean beneath its frozen shell.
+              Massive water-rich plumes erupt from tiger-stripe cracks near its south pole,
+              making it one of the most promising places to search for extraterrestrial life.
+            </p>
+          </div>
+        </div>
+
+        <!-- Quick Stats -->
+        <div class="stats-grid">
+          <div class="stat-card" style="--stat-accent: var(--clr-cyan);">
+            <div class="stat-card__icon">🪐</div>
+            <div class="stat-card__value" data-count="Saturn">Saturn</div>
+            <div class="stat-card__label">Orbits</div>
+          </div>
+          <div class="stat-card" style="--stat-accent: var(--clr-purple);">
+            <div class="stat-card__icon">📏</div>
+            <div class="stat-card__value" data-count="504">0</div>
+            <div class="stat-card__label">Diameter (km)</div>
+          </div>
+          <div class="stat-card" style="--stat-accent: var(--clr-blue);">
+            <div class="stat-card__icon">🌡️</div>
+            <div class="stat-card__value" data-count="-201">0</div>
+            <div class="stat-card__label">Surface Temp (°C)</div>
+          </div>
+          <div class="stat-card" style="--stat-accent: var(--clr-green);">
+            <div class="stat-card__icon">⚖️</div>
+            <div class="stat-card__value" data-count="1.08">0</div>
+            <div class="stat-card__label">Density (g/cm³)</div>
+          </div>
+          <div class="stat-card" style="--stat-accent: var(--clr-amber);">
+            <div class="stat-card__icon">🔄</div>
+            <div class="stat-card__value" data-count="33">0</div>
+            <div class="stat-card__label">Orbital Period (hrs)</div>
+          </div>
+          <div class="stat-card" style="--stat-accent: var(--clr-pink);">
+            <div class="stat-card__icon">🌊</div>
+            <div class="stat-card__value" data-count="1">0</div>
+            <div class="stat-card__label">Subsurface Ocean</div>
+          </div>
+        </div>
+
+        <!-- Info Cards -->
+        <div class="section-header">
+          <div class="section-header__tag"><span>◇</span> ENCELADUS PROFILE</div>
+          <h2 class="section-header__title">Key Features</h2>
+          <p class="section-header__desc">Everything we know about Saturn's most intriguing moon.</p>
+        </div>
+
+        <div class="info-grid">
+          <!-- Card: Orbits Saturn -->
+          <div class="info-card accent-cyan">
+            <div class="info-card__header">
+              <div class="info-card__icon-wrap">🪐</div>
+              <div class="info-card__title">ORBITS SATURN</div>
+            </div>
+            <div class="info-card__body">
+              Enceladus orbits within Saturn's vast ring system, specifically within the tenuous <strong>E ring</strong>,
+              which is actually generated by its own plume activity. It completes one orbit every <strong>32.9 hours</strong>
+              at a distance of about 238,000 km from Saturn. The gravitational tug from Saturn and the moon Dione
+              creates tidal heating that powers its geological activity.
+            </div>
+          </div>
+
+          <!-- Card: Size -->
+          <div class="info-card accent-purple">
+            <div class="info-card__header">
+              <div class="info-card__icon-wrap">📏</div>
+              <div class="info-card__title">COMPACT SIZE</div>
+            </div>
+            <div class="info-card__body">
+              With a diameter of about <strong>504 km</strong>, Enceladus is only about <strong>1/25th</strong> the size of Earth.
+              It's small enough to fit within the borders of the UK or the US state of Arizona.
+              Despite its tiny size, it packs more geological excitement than many larger worlds — proving that
+              size doesn't determine scientific importance.
+            </div>
+          </div>
+
+          <!-- Card: Ice Surface -->
+          <div class="info-card accent-blue">
+            <div class="info-card__header">
+              <div class="info-card__icon-wrap">❄️</div>
+              <div class="info-card__title">ICY SURFACE</div>
+            </div>
+            <div class="info-card__body">
+              The surface is almost entirely covered in <strong>fresh, clean ice</strong>, making Enceladus one of the
+              most reflective objects in the Solar System (albedo ~0.99). The south polar region features dramatic
+              <strong>"tiger stripe" fractures</strong> — four parallel rifts about 130 km long — that are the source
+              of the moon's famous plumes.
+            </div>
+          </div>
+
+          <!-- Card: Subsurface Ocean -->
+          <div class="info-card accent-green">
+            <div class="info-card__header">
+              <div class="info-card__icon-wrap">🌊</div>
+              <div class="info-card__title">HIDDEN OCEAN</div>
+            </div>
+            <div class="info-card__body">
+              Beneath roughly <strong>20–25 km of ice</strong>, Cassini data strongly suggests a <strong>global liquid-water ocean</strong>.
+              The ocean is kept warm by tidal heating from Saturn's gravity. Measurements of the moon's wobble (libration)
+              indicate the ice shell floats on this ocean rather than being frozen to the rocky core —
+              meaning the entire moon has a liquid layer.
+            </div>
+          </div>
+
+          <!-- Card: Plumes -->
+          <div class="info-card accent-pink">
+            <div class="info-card__header">
+              <div class="info-card__icon-wrap">💨</div>
+              <div class="info-card__title">WATER PLUMES</div>
+            </div>
+            <div class="info-card__body">
+              Enceladus shoots <strong>massive jets of water vapor, ice particles, and organic compounds</strong>
+              hundreds of kilometers into space from cracks near its south pole. These plumes were first
+              discovered by the Cassini spacecraft in 2005. They eject approximately <strong>200 kg of material
+              per second</strong> and are the primary source of Saturn's E ring.
+            </div>
+          </div>
+
+          <!-- Card: Chemistry / Life -->
+          <div class="info-card accent-amber">
+            <div class="info-card__header">
+              <div class="info-card__icon-wrap">🧪</div>
+              <div class="info-card__title">LIFE INGREDIENTS</div>
+            </div>
+            <div class="info-card__body">
+              Cassini detected <strong>complex organic molecules</strong>, molecular hydrogen (H₂),
+              carbon dioxide, and silica nanoparticles in the plumes. The hydrogen suggests
+              <strong>hydrothermal activity</strong> on the ocean floor — similar to deep-sea vents on Earth where
+              life thrives. Enceladus has liquid water, energy, and chemistry — all ingredients for potential life.
+            </div>
+          </div>
+        </div>
+
+        <!-- Mission Timeline -->
+        <div class="glass-card glass-card--no-hover" style="margin-top: 32px;">
+          <div class="section-header" style="margin-bottom: 20px;">
+            <div class="section-header__tag"><span>◇</span> EXPLORATION HISTORY</div>
+            <h2 class="section-header__title">Enceladus Discovery Timeline</h2>
+          </div>
+          <div class="timeline">
+            <div class="timeline__item">
+              <div class="timeline__dot"></div>
+              <div class="timeline__date">1789</div>
+              <div class="timeline__text">William Herschel discovers Enceladus using his 1.2-meter telescope — one of the first moons found beyond Jupiter.</div>
+            </div>
+            <div class="timeline__item">
+              <div class="timeline__dot" style="background: var(--clr-purple);"></div>
+              <div class="timeline__date">1981</div>
+              <div class="timeline__text">Voyager 2 flyby reveals a surprisingly smooth, young surface — hinting at geological activity.</div>
+            </div>
+            <div class="timeline__item">
+              <div class="timeline__dot" style="background: var(--clr-pink);"></div>
+              <div class="timeline__date">2005</div>
+              <div class="timeline__text">Cassini discovers dramatic water-ice plumes erupting from the south polar "tiger stripes" — a landmark moment.</div>
+            </div>
+            <div class="timeline__item">
+              <div class="timeline__dot" style="background: var(--clr-amber);"></div>
+              <div class="timeline__date">2008 – 2015</div>
+              <div class="timeline__text">Multiple Cassini flybys detect organic molecules, molecular hydrogen, and confirm a global subsurface ocean.</div>
+            </div>
+            <div class="timeline__item">
+              <div class="timeline__dot" style="background: var(--clr-green);"></div>
+              <div class="timeline__date">2017</div>
+              <div class="timeline__text">Scientists confirm Enceladus has all known requirements for life: liquid water, energy source, and organic chemistry.</div>
+            </div>
+            <div class="timeline__item">
+              <div class="timeline__dot" style="background: var(--clr-cyan); box-shadow: 0 0 12px var(--clr-cyan);"></div>
+              <div class="timeline__date">2026 — NOW</div>
+              <div class="timeline__text"><strong>GSS Credence High School Rover Mission</strong> — our student-built rover prototype simulates Enceladus surface exploration.</div>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ====== PAGE: SIMULATION ====== -->
+      <section class="page" id="page-simulation">
+
+        <div class="section-header">
+          <div class="section-header__tag"><span>◇</span> ROVER SIMULATION</div>
+          <h2 class="section-header__title">Surface Exploration Map</h2>
+          <p class="section-header__desc">Navigate the rover across Enceladus terrain. Hidden areas are revealed as the rover explores. Use arrow keys, the D-pad, or auto-explore.</p>
+        </div>
+
+        <div class="sim-layout">
+          <!-- Canvas -->
+          <div class="sim-canvas-wrap">
+            <canvas id="simCanvas"></canvas>
+          </div>
+
+          <!-- Side Panel -->
+          <div class="sim-panel">
+            <!-- Controls -->
+            <div class="glass-card">
+              <div class="mini-title">CONTROLS</div>
+              <div class="sim-controls">
+                <button class="sim-btn sim-btn--primary" id="btn-auto">▶ AUTO EXPLORE</button>
+                <button class="sim-btn" id="btn-regen">🔄 NEW TERRAIN</button>
+                <button class="sim-btn sim-btn--danger" id="btn-reset">⏹ RESET</button>
+              </div>
+
+              <hr class="divider">
+
+              <div class="mini-title">SPEED</div>
+              <div class="speed-control">
+                <span class="speed-label">🐢</span>
+                <input type="range" id="speed-slider" min="10" max="100" value="50">
+                <span class="speed-label" id="speed-label">50%</span>
+                <span class="speed-label">🐇</span>
+              </div>
+
+              <hr class="divider">
+
+              <div class="mini-title">MANUAL DRIVE</div>
+              <div class="dpad">
+                <button class="dpad__btn dpad__btn--up" id="dpad-up">▲</button>
+                <button class="dpad__btn dpad__btn--left" id="dpad-left">◀</button>
+                <button class="dpad__btn dpad__btn--center">●</button>
+                <button class="dpad__btn dpad__btn--right" id="dpad-right">▶</button>
+                <button class="dpad__btn dpad__btn--down" id="dpad-down">▼</button>
+              </div>
+            </div>
+
+            <!-- Telemetry -->
+            <div class="glass-card">
+              <div class="mini-title">TELEMETRY</div>
+              <div class="telemetry">
+                <div class="telemetry__row">
+                  <span class="telemetry__label">Position</span>
+                  <span class="telemetry__value" id="tel-pos">(3, 2)</span>
+                </div>
+                <div class="telemetry__row">
+                  <span class="telemetry__label">Heading</span>
+                  <span class="telemetry__value" id="tel-dir">→</span>
+                </div>
+                <div class="telemetry__row">
+                  <span class="telemetry__label">Explored</span>
+                  <span class="telemetry__value" id="tel-explored">0%</span>
+                </div>
+                <div class="telemetry__row">
+                  <span class="telemetry__label">Distance</span>
+                  <span class="telemetry__value" id="tel-distance">0</span>
+                </div>
+                <div class="telemetry__row">
+                  <span class="telemetry__label">Obstacles Avoided</span>
+                  <span class="telemetry__value" id="tel-obstacles">0</span>
+                </div>
+                <div class="telemetry__row">
+                  <span class="telemetry__label">Bumps Crossed</span>
+                  <span class="telemetry__value" id="tel-bumps">0</span>
+                </div>
+                <div class="telemetry__row">
+                  <span class="telemetry__label">Tiles</span>
+                  <span class="telemetry__value" id="tel-tiles">0 / 3072</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Legend -->
+            <div class="glass-card">
+              <div class="mini-title">TERRAIN LEGEND</div>
+              <div class="sim-legend">
+                <div class="sim-legend__item">
+                  <div class="sim-legend__swatch" style="background: #00aadd; box-shadow: 0 0 4px rgba(0,170,220,0.4);"></div> Rover
+                </div>
+                <div class="sim-legend__item">
+                  <div class="sim-legend__swatch" style="background: #a0c8a0; border: 1px solid #60b880;"></div> Dock
+                </div>
+              </div>
+              <hr class="divider" style="margin: 10px 0;">
+              <div style="font-size:10px; color:var(--text-muted); letter-spacing:1px; text-transform:uppercase; font-weight:700; margin-bottom:8px;">⛔ IMPASSABLE</div>
+              <div class="sim-legend">
+                <div class="sim-legend__item">
+                  <div class="sim-legend__swatch" style="background: #6e7f98;"></div> Boulder
+                </div>
+                <div class="sim-legend__item">
+                  <div class="sim-legend__swatch" style="background: #dce8f4; border: 1px solid #a0b4cc;"></div> Hill
+                </div>
+                <div class="sim-legend__item">
+                  <div class="sim-legend__swatch" style="background: #d0ddef; border-left: 2px solid #f0f6ff;"></div> Ice Ridge
+                </div>
+                <div class="sim-legend__item">
+                  <div class="sim-legend__swatch" style="background: #4a5c78; border: 1px solid #7a90aa;"></div> Deep Crater
+                </div>
+              </div>
+              <hr class="divider" style="margin: 10px 0;">
+              <div style="font-size:10px; color:var(--text-muted); letter-spacing:1px; text-transform:uppercase; font-weight:700; margin-bottom:8px;">✅ PASSABLE TERRAIN</div>
+              <div class="sim-legend">
+                <div class="sim-legend__item">
+                  <div class="sim-legend__swatch" style="background: #c8d8e8;"></div> Ice Surface
+                </div>
+                <div class="sim-legend__item">
+                  <div class="sim-legend__swatch" style="background: #8a9cb8; border: 1px solid #d4e0ee;"></div> Crater
+                </div>
+                <div class="sim-legend__item">
+                  <div class="sim-legend__swatch" style="background: #b0c4dc;"></div> Bumpy Ground
+                </div>
+                <div class="sim-legend__item">
+                  <div class="sim-legend__swatch" style="background: #5a8aaa;"></div> Ice Crack
+                </div>
+                <div class="sim-legend__item">
+                  <div class="sim-legend__swatch" style="background: #7ab0d0; box-shadow: 0 0 4px rgba(140,210,240,0.4);"></div> Plume Vent
+                </div>
+              </div>
+              <hr class="divider" style="margin: 10px 0;">
+              <div style="font-size:10px; color:var(--text-muted); letter-spacing:1px; text-transform:uppercase; font-weight:700; margin-bottom:8px;">📍 MARKERS</div>
+              <div class="sim-legend">
+                <div class="sim-legend__item">
+                  <div class="sim-legend__swatch" style="background: rgba(0,150,200,0.3);"></div> Rover Trail
+                </div>
+                <div class="sim-legend__item">
+                  <div class="sim-legend__swatch" style="background: #04060c;"></div> Fog (Hidden)
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====== PAGE: LIVE STREAM ====== -->
+      <section class="page" id="page-stream">
+
+        <div class="section-header">
+          <div class="section-header__tag"><span>◇</span> LIVE CAMERA FEED</div>
+          <h2 class="section-header__title">EV3 Rover Stream</h2>
+          <p class="section-header__desc">Connect to your EV3 rover's camera with AI vision. Enter the stream URL from your EV3 setup to begin.</p>
+        </div>
+
+        <div class="stream-layout">
+          <!-- Viewport -->
+          <div class="glass-card" style="padding: 0; overflow: hidden;">
+            <div class="stream-viewport" id="stream-viewport">
+              <div class="stream-overlay">
+                <div class="stream-overlay__badge stream-overlay__badge--live" id="stream-live-badge" style="display: none;">
+                  LIVE
+                </div>
+              </div>
+              <div class="stream-placeholder" id="stream-placeholder">
+                <div class="stream-placeholder__icon">📡</div>
+                <div class="stream-placeholder__text">
+                  <strong>No active stream</strong><br>
+                  Connect your EV3 rover camera to begin the live feed. Supports MJPEG, HTTP video, and direct URL streams.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sidebar -->
+          <div class="stream-sidebar">
+            <!-- Connection -->
+            <div class="glass-card">
+              <div class="mini-title">CONNECTION</div>
+              <div class="connect-form">
+                <div class="form-group">
+                  <label class="form-group__label" for="stream-url">Stream URL</label>
+                  <input class="form-group__input" type="text" id="stream-url"
+                    placeholder="http://192.168.1.100:8080/video">
+                </div>
+                <div class="form-group">
+                  <label class="form-group__label" for="stream-type">Stream Type</label>
+                  <select class="form-group__input" id="stream-type">
+                    <option value="mjpeg">MJPEG (EV3 Camera)</option>
+                    <option value="http">HTTP Video Stream</option>
+                    <option value="direct">Direct URL</option>
+                  </select>
+                </div>
+                <button class="sim-btn sim-btn--primary" id="btn-connect">📡 Connect</button>
+                <button class="sim-btn sim-btn--danger" id="btn-disconnect">⏹ Disconnect</button>
+              </div>
+            </div>
+
+            <!-- AI Vision Setup -->
+            <div class="glass-card">
+              <div class="mini-title">AI VISION SETUP</div>
+              <div class="info-card__body" style="font-size: 12px; line-height: 1.7;">
+                <strong style="color: var(--clr-cyan);">EV3 + AI Vision Camera</strong><br>
+                1. Connect the AI Vision camera to your EV3 brick<br>
+                2. Start the camera server on the EV3 (MJPEG mode)<br>
+                3. Enter the EV3's IP address and port above<br>
+                4. Click "Connect" to begin streaming<br><br>
+                <strong style="color: var(--clr-amber);">Supported Cameras:</strong><br>
+                • LEGO EV3 Camera Module<br>
+                • Pixy2 AI Vision Sensor<br>
+                • USB Webcam via ev3dev<br>
+                • HuskyLens AI Camera
+              </div>
+            </div>
+
+            <!-- Detection Log -->
+            <div class="glass-card">
+              <div class="mini-title">AI DETECTION LOG</div>
+              <div class="detection-log" id="detection-log">
+                <!-- Detection items will be added dynamically -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+   
+    <footer class="footer">
+      <p>GSS Enceladus Rover Explorer — Credence High School &middot; Built for Space Science 🚀</p>
+    </footer>
+
+  </div>
+
+
+  <script src="simulation.js"></script>
+  <script src="app.js"></script>
+</body>
+
+</html>
