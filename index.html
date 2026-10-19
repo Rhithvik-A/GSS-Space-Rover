@@ -381,9 +381,9 @@
       <section class="page" id="page-stream">
 
         <div class="section-header">
-          <div class="section-header__tag"><span>◇</span> LIVE CAMERA FEED</div>
-          <h2 class="section-header__title">EV3 Rover Stream</h2>
-          <p class="section-header__desc">Connect to your EV3 rover's camera with AI vision. Enter the stream URL from your EV3 setup to begin.</p>
+          <div class="section-header__tag"><span>◇</span> LIVE STREAM</div>
+          <h2 class="section-header__title">YouTube Live Feed</h2>
+          <p class="section-header__desc">Paste any YouTube URL and the rover's live feed will appear instantly inside the embedded player.</p>
         </div>
 
         <div class="stream-layout">
@@ -396,61 +396,43 @@
                 </div>
               </div>
               <div class="stream-placeholder" id="stream-placeholder">
-                <div class="stream-placeholder__icon">📡</div>
+                <div class="stream-placeholder__icon">▶️</div>
                 <div class="stream-placeholder__text">
-                  <strong>No active stream</strong><br>
-                  Connect your EV3 rover camera to begin the live feed. Supports MJPEG, HTTP video, and direct URL streams.
+                  <strong>No stream loaded</strong><br>
+                  Enter a YouTube URL in the panel and click <em>Load Stream</em> to begin.
                 </div>
               </div>
+              <!-- YouTube iframe injected here by JS -->
             </div>
           </div>
 
           <!-- Sidebar -->
           <div class="stream-sidebar">
-            <!-- Connection -->
+            <!-- YouTube URL input -->
             <div class="glass-card">
-              <div class="mini-title">CONNECTION</div>
+              <div class="mini-title">YOUTUBE STREAM</div>
               <div class="connect-form">
                 <div class="form-group">
-                  <label class="form-group__label" for="stream-url">Stream URL</label>
+                  <label class="form-group__label" for="stream-url">YouTube URL</label>
                   <input class="form-group__input" type="text" id="stream-url"
-                    placeholder="http://192.168.1.100:8080/video">
+                    placeholder="https://www.youtube.com/watch?v=...">
                 </div>
-                <div class="form-group">
-                  <label class="form-group__label" for="stream-type">Stream Type</label>
-                  <select class="form-group__input" id="stream-type">
-                    <option value="mjpeg">MJPEG (EV3 Camera)</option>
-                    <option value="http">HTTP Video Stream</option>
-                    <option value="direct">Direct URL</option>
-                  </select>
-                </div>
-                <button class="sim-btn sim-btn--primary" id="btn-connect">📡 Connect</button>
-                <button class="sim-btn sim-btn--danger" id="btn-disconnect">⏹ Disconnect</button>
+                <button class="sim-btn sim-btn--primary" id="btn-connect">▶ Load Stream</button>
+                <button class="sim-btn sim-btn--danger" id="btn-disconnect">⏹ Clear</button>
               </div>
             </div>
 
-            <!-- AI Vision Setup -->
+            <!-- Tips -->
             <div class="glass-card">
-              <div class="mini-title">AI VISION SETUP</div>
-              <div class="info-card__body" style="font-size: 12px; line-height: 1.7;">
-                <strong style="color: var(--clr-cyan);">EV3 + AI Vision Camera</strong><br>
-                1. Connect the AI Vision camera to your EV3 brick<br>
-                2. Start the camera server on the EV3 (MJPEG mode)<br>
-                3. Enter the EV3's IP address and port above<br>
-                4. Click "Connect" to begin streaming<br><br>
-                <strong style="color: var(--clr-amber);">Supported Cameras:</strong><br>
-                • LEGO EV3 Camera Module<br>
-                • Pixy2 AI Vision Sensor<br>
-                • USB Webcam via ev3dev<br>
-                • HuskyLens AI Camera
-              </div>
-            </div>
-
-            <!-- Detection Log -->
-            <div class="glass-card">
-              <div class="mini-title">AI DETECTION LOG</div>
-              <div class="detection-log" id="detection-log">
-                <!-- Detection items will be added dynamically -->
+              <div class="mini-title">QUICK TIPS</div>
+              <div class="info-card__body" style="font-size: 12px; line-height: 1.9;">
+                <strong style="color: var(--clr-cyan);">Accepted URL formats:</strong><br>
+                • <code style="color:var(--clr-amber)">youtube.com/watch?v=ID</code><br>
+                • <code style="color:var(--clr-amber)">youtu.be/ID</code><br>
+                • <code style="color:var(--clr-amber)">youtube.com/live/ID</code><br>
+                • <code style="color:var(--clr-amber)">youtube.com/embed/ID</code><br><br>
+                <strong style="color: var(--clr-green);">For a live event:</strong><br>
+                Open YouTube, go to the live stream, copy the URL from the address bar, and paste it above.
               </div>
             </div>
           </div>

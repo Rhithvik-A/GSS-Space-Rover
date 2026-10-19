@@ -126,102 +126,75 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
 
-  // ---- Stream Page ----
-  const streamUrlInput = document.getElementById('stream-url');
-  const streamTypeSelect = document.getElementById('stream-type');
-  const btnConnect = document.getElementById('btn-connect');
-  const btnDisconnect = document.getElementById('btn-disconnect');
-  const streamViewport = document.getElementById('stream-viewport');
+  // ---- Stream Page (YouTube iframe) ----
+  const streamUrlInput   = document.getElementById('stream-url');
+  const btnConnect       = document.getElementById('btn-connect');
+  const btnDisconnect    = document.getElementById('btn-disconnect');
+  const streamViewport   = document.getElementById('stream-viewport');
   const streamPlaceholder = document.getElementById('stream-placeholder');
-  const streamLiveBadge = document.getElementById('stream-live-badge');
-  const detectionLog = document.getElementById('detection-log');
+  const streamLiveBadge  = document.getElementById('stream-live-badge');
 
-  let streamActive = false;
+  /**
+   * Extract YouTube video ID from any common YouTube URL format:
+   *  - youtube.com/watch?v=ID
+   *  - youtu.be/ID
+   *  - youtube.com/live/ID
+   *  - youtube.com/embed/ID
+   */
+  function extractYouTubeId(url) {
+    try {
+      const u = new URL(url);
+      // youtu.be/ID
+      if (u.hostname === 'youtu.be') return u.pathname.slice(1).split('?')[0];
+      // youtube.com/watch?v=ID
+      if (u.searchParams.get('v')) return u.searchParams.get('v');
+      // youtube.com/live/ID  or  youtube.com/embed/ID
+      const pathParts = u.pathname.split('/').filter(Boolean);
+      if (['live', 'embed'].includes(pathParts[0]) && pathParts[1]) return pathParts[1];
+    } catch (_) { /* invalid URL */ }
+    return null;
+  }
 
   btnConnect?.addEventListener('click', () => {
-    const url = streamUrlInput?.value?.trim();
-    const type = streamTypeSelect?.value;
-
-    if (!url) {
-      addDetection('⚠️', 'Please enter a stream URL', 'rgba(245, 158, 11, 0.15)');
+    const raw = streamUrlInput?.value?.trim();
+    if (!raw) {
+      alert('Please enter a YouTube URL.');
       return;
     }
 
-    // Clear viewport
-    const existingMedia = streamViewport?.querySelector('video, img');
-    if (existingMedia) existingMedia.remove();
-
-    if (type === 'mjpeg') {
-      // MJPEG stream (common for EV3 + camera setups)
-      const img = document.createElement('img');
-      img.src = url;
-      img.alt = 'EV3 Rover Camera Feed';
-      img.style.width = '100%';
-      img.style.height = '100%';
-      img.style.objectFit = 'contain';
-      img.onerror = () => {
-        addDetection('❌', 'Failed to load MJPEG stream. Check URL and network.', 'rgba(239, 68, 68, 0.15)');
-      };
-      streamViewport?.appendChild(img);
-    } else {
-      // HLS / WebRTC / direct video
-      const video = document.createElement('video');
-      video.src = url;
-      video.autoplay = true;
-      video.muted = true;
-      video.playsInline = true;
-      video.style.width = '100%';
-      video.style.height = '100%';
-      video.style.objectFit = 'contain';
-      video.onerror = () => {
-        addDetection('❌', 'Failed to load video stream. Check URL and format.', 'rgba(239, 68, 68, 0.15)');
-      };
-      streamViewport?.appendChild(video);
+    const videoId = extractYouTubeId(raw);
+    if (!videoId) {
+      alert('Could not recognise a YouTube video ID in that URL.\nPlease paste a valid YouTube link.');
+      return;
     }
 
-    streamActive = true;
-    if (streamPlaceholder) streamPlaceholder.style.display = 'none';
-    if (streamLiveBadge) streamLiveBadge.style.display = 'flex';
+    // Remove any previous iframe
+    const existing = streamViewport?.querySelector('iframe');
+    if (existing) existing.remove();
 
-    addDetection('🟢', `Connected to stream: <strong>${type.toUpperCase()}</strong>`, 'rgba(16, 185, 129, 0.15)');
-    addDetection('📡', `URL: ${url.substring(0, 40)}...`, 'rgba(0, 210, 255, 0.1)');
+    const embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`;
+
+    const iframe = document.createElement('iframe');
+    iframe.id             = 'yt-iframe';
+    iframe.src            = embedUrl;
+    iframe.allow          = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+    iframe.allowFullscreen = true;
+    iframe.style.cssText  = 'width:100%;height:100%;border:none;display:block;';
+
+    streamViewport?.appendChild(iframe);
+
+    if (streamPlaceholder) streamPlaceholder.style.display = 'none';
+    if (streamLiveBadge)   streamLiveBadge.style.display   = 'flex';
   });
 
   btnDisconnect?.addEventListener('click', () => {
-    const media = streamViewport?.querySelector('video, img');
-    if (media) {
-      if (media.tagName === 'VIDEO') media.pause();
-      media.remove();
-    }
-    streamActive = false;
+    const iframe = streamViewport?.querySelector('iframe');
+    if (iframe) iframe.remove();
+
     if (streamPlaceholder) streamPlaceholder.style.display = 'flex';
-    if (streamLiveBadge) streamLiveBadge.style.display = 'none';
-    addDetection('🔴', 'Stream disconnected', 'rgba(239, 68, 68, 0.15)');
+    if (streamLiveBadge)   streamLiveBadge.style.display   = 'none';
+    if (streamUrlInput)    streamUrlInput.value             = '';
   });
-
-  function addDetection(icon, text, bgColor) {
-    const item = document.createElement('div');
-    item.className = 'detection-item';
-    const now = new Date();
-    const timeStr = now.toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });
-
-    item.innerHTML = `
-      <div class="detection-item__icon" style="background: ${bgColor}">${icon}</div>
-      <div class="detection-item__text">${text}</div>
-      <div class="detection-item__time">${timeStr}</div>
-    `;
-
-    detectionLog?.prepend(item);
-
-    // Keep only last 20
-    while (detectionLog?.children.length > 20) {
-      detectionLog.removeChild(detectionLog.lastChild);
-    }
-  }
-
-  // Demo detection entries
-  addDetection('🤖', 'AI Vision system initialized', 'rgba(0, 210, 255, 0.1)');
-  addDetection('📋', 'EV3 controller ready', 'rgba(168, 85, 247, 0.1)');
 
 
   // ---- Animated Counter for stats ----
