@@ -126,75 +126,9 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
 
-  // ---- Stream Page (YouTube iframe) ----
-  const streamUrlInput   = document.getElementById('stream-url');
-  const btnConnect       = document.getElementById('btn-connect');
-  const btnDisconnect    = document.getElementById('btn-disconnect');
-  const streamViewport   = document.getElementById('stream-viewport');
-  const streamPlaceholder = document.getElementById('stream-placeholder');
-  const streamLiveBadge  = document.getElementById('stream-live-badge');
-
-  /**
-   * Extract YouTube video ID from any common YouTube URL format:
-   *  - youtube.com/watch?v=ID
-   *  - youtu.be/ID
-   *  - youtube.com/live/ID
-   *  - youtube.com/embed/ID
-   */
-  function extractYouTubeId(url) {
-    try {
-      const u = new URL(url);
-      // youtu.be/ID
-      if (u.hostname === 'youtu.be') return u.pathname.slice(1).split('?')[0];
-      // youtube.com/watch?v=ID
-      if (u.searchParams.get('v')) return u.searchParams.get('v');
-      // youtube.com/live/ID  or  youtube.com/embed/ID
-      const pathParts = u.pathname.split('/').filter(Boolean);
-      if (['live', 'embed'].includes(pathParts[0]) && pathParts[1]) return pathParts[1];
-    } catch (_) { /* invalid URL */ }
-    return null;
-  }
-
-  btnConnect?.addEventListener('click', () => {
-    const raw = streamUrlInput?.value?.trim();
-    if (!raw) {
-      alert('Please enter a YouTube URL.');
-      return;
-    }
-
-    const videoId = extractYouTubeId(raw);
-    if (!videoId) {
-      alert('Could not recognise a YouTube video ID in that URL.\nPlease paste a valid YouTube link.');
-      return;
-    }
-
-    // Remove any previous iframe
-    const existing = streamViewport?.querySelector('iframe');
-    if (existing) existing.remove();
-
-    const embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`;
-
-    const iframe = document.createElement('iframe');
-    iframe.id             = 'yt-iframe';
-    iframe.src            = embedUrl;
-    iframe.allow          = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
-    iframe.allowFullscreen = true;
-    iframe.style.cssText  = 'width:100%;height:100%;border:none;display:block;';
-
-    streamViewport?.appendChild(iframe);
-
-    if (streamPlaceholder) streamPlaceholder.style.display = 'none';
-    if (streamLiveBadge)   streamLiveBadge.style.display   = 'flex';
-  });
-
-  btnDisconnect?.addEventListener('click', () => {
-    const iframe = streamViewport?.querySelector('iframe');
-    if (iframe) iframe.remove();
-
-    if (streamPlaceholder) streamPlaceholder.style.display = 'flex';
-    if (streamLiveBadge)   streamLiveBadge.style.display   = 'none';
-    if (streamUrlInput)    streamUrlInput.value             = '';
-  });
+  // ---- Stream Page (Restream Studio — static embed) ----
+  // The iframe src is hardcoded to: https://studio.restream.io/erv-ktdw-obk
+  // No dynamic URL input needed; the LIVE badge is always visible.
 
 
   // ---- Animated Counter for stats ----

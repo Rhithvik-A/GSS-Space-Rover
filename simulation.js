@@ -53,32 +53,19 @@ const SimEngine = (() => {
   const DY = [0, 1, 0, -1];
   const DIR_ARROWS = ['→', '↓', '←', '↑'];
 
-  // Impassable tiles
   const IMPASSABLE = new Set([T_BOULDER, T_HILL, T_ICE_RIDGE, T_DEEP_CRATER]);
 
-  // ---- Enceladus Color Palette ----
-  // Enceladus is one of the brightest objects in the solar system:
-  // icy whites, pale blues, subtle blue-grays
   const COLORS = {
-    // Fog
     fog:            '#04060c',
     fogPartial:     'rgba(4, 6, 12, 0.65)',
-
-    // Ground — icy pale surface
     ground:         '#c8d8e8',
     groundAlt:      '#bfd0e2',
     groundDark:     '#a8bcd4',
-
-    // Craters — shadowed depressions
     crater:         '#8a9cb8',
     craterRim:      '#d4e0ee',
     craterShadow:   '#6a7e9a',
-
-    // Deep craters — very dark
     deepCrater:     '#4a5c78',
     deepCraterRim:  '#7a90aa',
-
-    // Boulders — gray-blue rocks on ice
     boulder:        '#6e7f98',
     boulderHi:      '#8e9fb8',
     boulderShadow:  '#4e5f78',

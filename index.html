@@ -383,8 +383,8 @@
 
         <div class="section-header">
           <div class="section-header__tag"><span>◇</span> LIVE STREAM</div>
-          <h2 class="section-header__title">YouTube Live Feed</h2>
-          <p class="section-header__desc">Paste any YouTube URL and the rover's live feed will appear instantly inside the embedded player.</p>
+          <h2 class="section-header__title">Live Feed — Restream Studio</h2>
+          <p class="section-header__desc">Real-time rover camera feed streamed live via Restream Studio.</p>
         </div>
 
         <div class="stream-layout">
@@ -392,34 +392,32 @@
           <div class="glass-card" style="padding: 0; overflow: hidden;">
             <div class="stream-viewport" id="stream-viewport">
               <div class="stream-overlay">
-                <div class="stream-overlay__badge stream-overlay__badge--live" id="stream-live-badge" style="display: none;">
+                <div class="stream-overlay__badge stream-overlay__badge--live" id="stream-live-badge">
                   LIVE
                 </div>
               </div>
-              <div class="stream-placeholder" id="stream-placeholder">
-                <div class="stream-placeholder__icon">▶️</div>
-                <div class="stream-placeholder__text">
-                  <strong>No stream loaded</strong><br>
-                  Enter a YouTube URL in the panel and click <em>Load Stream</em> to begin.
-                </div>
-              </div>
-              <!-- YouTube iframe injected here by JS -->
+              <iframe
+                id="restream-iframe"
+                src="https://studio.restream.io/erv-ktdw-obk"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen
+                style="width:100%;height:100%;border:none;display:block;"
+              ></iframe>
             </div>
           </div>
 
           <!-- Sidebar -->
           <div class="stream-sidebar">
-            <!-- YouTube URL input -->
+            <!-- Stream Info -->
             <div class="glass-card">
-              <div class="mini-title">YOUTUBE STREAM</div>
-              <div class="connect-form">
-                <div class="form-group">
-                  <label class="form-group__label" for="stream-url">YouTube URL</label>
-                  <input class="form-group__input" type="text" id="stream-url"
-                    placeholder="https://www.youtube.com/watch?v=...">
-                </div>
-                <button class="sim-btn sim-btn--primary" id="btn-connect">▶ Load Stream</button>
-                <button class="sim-btn sim-btn--danger" id="btn-disconnect">⏹ Clear</button>
+              <div class="mini-title">STREAM INFO</div>
+              <div class="info-card__body" style="font-size: 12px; line-height: 1.9;">
+                <strong style="color: var(--clr-cyan);">Platform:</strong><br>
+                • <code style="color:var(--clr-amber)">Restream Studio</code><br><br>
+                <strong style="color: var(--clr-cyan);">Stream URL:</strong><br>
+                • <code style="color:var(--clr-amber)">studio.restream.io/erv-ktdw-obk</code><br><br>
+                <strong style="color: var(--clr-green);">Status:</strong><br>
+                The stream will appear automatically when the rover camera goes live.
               </div>
             </div>
 
@@ -427,13 +425,10 @@
             <div class="glass-card">
               <div class="mini-title">QUICK TIPS</div>
               <div class="info-card__body" style="font-size: 12px; line-height: 1.9;">
-                <strong style="color: var(--clr-cyan);">Accepted URL formats:</strong><br>
-                • <code style="color:var(--clr-amber)">youtube.com/watch?v=ID</code><br>
-                • <code style="color:var(--clr-amber)">youtu.be/ID</code><br>
-                • <code style="color:var(--clr-amber)">youtube.com/live/ID</code><br>
-                • <code style="color:var(--clr-amber)">youtube.com/embed/ID</code><br><br>
-                <strong style="color: var(--clr-green);">For a live event:</strong><br>
-                Open YouTube, go to the live stream, copy the URL from the address bar, and paste it above.
+                <strong style="color: var(--clr-cyan);">Viewing the feed:</strong><br>
+                The embedded stream loads automatically — no setup required.<br><br>
+                <strong style="color: var(--clr-green);">If the feed is blank:</strong><br>
+                The rover camera may not be broadcasting yet. Check back when the mission is active.
               </div>
             </div>
           </div>
